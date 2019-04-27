@@ -25,13 +25,13 @@ public class Gun : MonoBehaviour {
     private void checkRayIntersections()
     {
         Debug.DrawRay(Camera.main.transform.position,
-    Camera.main.transform.forward * 100, Color.red, 2);
+        Camera.main.transform.forward * 100, Color.red, 2);
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, 100))
         {
             GameObject go = hitInfo.collider.gameObject;
-            Debug.Log("ray hit " + go.name);
+            //Debug.Log("ray hit " + go.name);
             Health health = go.GetComponent<Health>();
             if (health != null)
                 health.takeDamage(damage);

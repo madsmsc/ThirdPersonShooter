@@ -3,7 +3,6 @@
 public class Move : MonoBehaviour
 {
     public float moveSpeed;
-    public float turnSpeed;
     public float mouseSpeed;
     public GameObject looking;
     public GameObject head;
@@ -13,7 +12,7 @@ public class Move : MonoBehaviour
     private Animator animator;
 
     private static float MAX_MOUSE_DIR = 50;
-    private static float MAX_HEAD_ROTATINO = 20;
+    private static float MAX_HEAD_ROTATION = 20;
 
     private void Awake()
     {
@@ -34,32 +33,31 @@ public class Move : MonoBehaviour
     {
         mouseDir += new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
-        float lookingRotation = clamp(-mouseDir.y * mouseSpeed, MAX_MOUSE_DIR);
+        float lookingRotation = clampMouse(MAX_MOUSE_DIR);
         looking.transform.localRotation = Quaternion.AngleAxis(lookingRotation, Vector3.right);
 
-        float headRotation = clamp(-mouseDir.y * mouseSpeed, MAX_HEAD_ROTATINO);
+        float headRotation = clampMouse(MAX_HEAD_ROTATION);
         head.transform.localRotation = Quaternion.AngleAxis(headRotation, Vector3.right);
         transform.localRotation = Quaternion.AngleAxis(mouseDir.x * mouseSpeed, Vector3.up);
     }
 
     private void keyboardMove()
     {
-        var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
-        var movement = new Vector3(horizontal, 0, vertical);
-        transform.Rotate(Vector3.up, horizontal * turnSpeed * Time.deltaTime);
-        if (vertical != 0)
+        var horizontal = Input.GetAxisRaw("Horizontal");
+        var vertical = Input.GetAxisRaw("Vertical");
+        if(vertical != 0 || horizontal != 0)
         {
-            characterController.SimpleMove(transform.forward * moveSpeed * vertical);
+            Vector3 move = transform.forward * vertical + transform.right * horizontal;
+            characterController.SimpleMove(move.normalized * moveSpeed);
         }
     }
 
-    private float clamp(float f, float max)
+    private float clampMouse(float max)
     {
-        if (f > MAX_MOUSE_DIR)
-            return MAX_MOUSE_DIR;
-        if (f < -MAX_MOUSE_DIR)
-            return -MAX_MOUSE_DIR;
-        return f;
+        if (-mouseDir.y * mouseSpeed > max)
+            return max;
+        if (-mouseDir.y * mouseSpeed < -max)
+            return -max;
+        return -mouseDir.y * mouseSpeed;
     }
 }

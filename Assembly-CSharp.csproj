@@ -71,6 +71,8 @@
     <Compile Include="Assets\Scipts\Gun.cs" />
     <Compile Include="Assets\Scipts\Health.cs" />
     <Compile Include="Assets\Scipts\Move.cs" />
+    <Compile Include="Assets\Tutorial.cs" />
+    <None Include="Assets\BOXOPHOBIC\Skybox Cubemap Extended\Shaders\Skybox Cubemap Extended.shader" />
     <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/madsm/UnityProjects/ThirdPersonShooter/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
